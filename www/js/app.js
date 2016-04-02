@@ -23,7 +23,8 @@ app.run(function($ionicPlatform) {
   });
 })
 
-app.controller('MapController', function($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatform) {
+
+function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatform) {
     
     $ionicPlatform.ready(function() {
 
@@ -60,6 +61,8 @@ app.controller('MapController', function($scope, $cordovaGeolocation, $ionicLoad
 	    console.log(err);
 	});
     });
-});
+}
+
+app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', mapController]);
     
 		  
