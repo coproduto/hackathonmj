@@ -1,14 +1,25 @@
 {
   "name": "hackathonmj",
-  "version": "1.1.1",
+  "version": "0.0.1",
   "description": "hackathonmj: An Ionic project",
+  "author": "Pedro Castilho <cstl.px@gmail.com>",
+  "contributors": [{
+      "name": "Julia de Belli",
+      "email": "juliadebelli@gmail.com"
+  }, {
+      "name": "Pedro Luiz Santos",
+      "email": "iacapuca@gmail.com"
+  }],
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/pcstl/hackathonmj"
+  },
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-sass": "^2.2.0",
     "gulp-concat": "^2.6.0",
     "gulp-clean-css": "^2.0.4",
-    "gulp-rename": "^1.2.2",
-    "angular": "~1.5.3"
+    "gulp-rename": "^1.2.2"
   },
   "devDependencies": {
     "bower": "^1.7.7",
@@ -26,5 +37,7 @@
   ],
   "cordovaPlatforms": [
     "android"
-  ]
+  ],
+  "private": true,
+  "license": "MIT"
 }
