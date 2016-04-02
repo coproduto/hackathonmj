@@ -64,3 +64,7 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
 }
 
 app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', mapController]);
+
+app.config(function ($ionicConfigProvider) {
+    $ionicConfigProvider.tabs.position('bottom');
+});
