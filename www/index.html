@@ -8,6 +8,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/icones.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -25,21 +26,16 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/routes.js"></script>
 
 </head>
 
 <body ng-app="hackathon">
 
     <ion-tabs class='tabs-icon-top tabs-stable'>
-        <ion-tab title='Inicio' icon='ion-ios-home-outline'>
-            <ion-content>
-                <p>Inicio</p>
-            </ion-content>
+        <ion-tab title='Inicio' icon='ion-ios-home-outline' href="#">
         </ion-tab>
-        <ion-tab title='Filtros' icon='ion-ios-list-outline'>
-            <ion-content>
-                <p>Filtros</p>
-            </ion-content>
+        <ion-tab title='Filtros' icon='ion-ios-list-outline' href="#/templates/filtros.html">>
         </ion-tab>
     </ion-tabs>
     <ion-nav-view>
@@ -49,10 +45,10 @@
                 <ion-nav-bar class="bar-stable">
                     <ion-nav-buttons side="left">
                         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-                        <h1 class="title">PAZ FDP</h1>
+                        <h1 class="title">De Olho</h1>
                     </ion-nav-buttons>
                 </ion-nav-bar>
-                <ion-content ng-controller="MapController" class="has-header">
+                <ion-content ng-controller="MapController" class="has-header has-footer">
                     <div id="map" data-tap-disabled="true"></div>
                 </ion-content>
             </ion-side-menu-content>

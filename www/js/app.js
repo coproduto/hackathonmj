@@ -46,6 +46,8 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
             var myLatLng = new google.maps.LatLng(lat, lng);
 
             var mapOptions = {
+                disableDefaultUI: true,
+                zoomControl: true,
                 center: myLatLng,
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -67,4 +69,5 @@ app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading
 
 app.config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
+    $ionicConfigProvider.navBar.alignTitle('center');
 });
