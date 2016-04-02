@@ -46,6 +46,9 @@
   "cordovaPlatforms": [
     "android"
   ],
+  "scripts": { 
+      "full-install": "node install && bower install"
+  }
   "private": true,
   "license": "MIT"
 }

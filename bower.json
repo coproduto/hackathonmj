@@ -1,8 +1,11 @@
 {
-  "name": "HelloIonic",
+  "name": "Hackathon",
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.2.4",
     "angular-mocks": "^1.5.3"
+  },
+  "dependencies": {
+    "ngCordova": "^0.1.24-alpha"
   }
 }
