@@ -1,1 +1,1 @@
-var services = angular.module('services');
+var services = angular.module('hackathon.services', []);
