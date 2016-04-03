@@ -16,29 +16,24 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
         };
 
         $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
 
-            var map = new L.map('map').setView([lat, lng], 15);
-            L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'mapbox.streets'
-            }).addTo(map);
+            var map = new L.map('map').setView([lat, lng], 15).whenReady(function() {
+		L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                    id: 'mapbox.streets'
+		}).addTo(map);
 
+		L.marker([lat, lng]).addTo(map);
 
-            $scope.map = map;
-            $ionicLoading.hide();
-
-            /*	    google.maps.event.addListenerOnce($scope.map, 'idle', function() {	
-            		var marker = new google.maps.Marker({ 
-            		    map: map,
-            		    animation: google.maps.animation.DROP,
-            		    position: myLatLng
-            		});
-            	    });*/
+		$scope.map = map;										
+		$ionicLoading.hide();
+	    });
 
         }, function (err) {
             $ionicLoading.hide();
