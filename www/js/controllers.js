@@ -1,6 +1,5 @@
 var controllers = angular.module('hackathon.controllers', []);
 
-
 function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatform) {
 
     $ionicPlatform.ready(function () {
@@ -41,3 +40,17 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
 }
 
 app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', mapController]);
+
+function orgaosController($scope, consulta, $ionicPlatform) {
+    $ionicPlatform.ready(function () {
+	consulta.orgaos({nome: "turismo"}, function(data) {
+	    $scope.orgaos = data.orgaos;
+	}, function(err) {
+	    $scope.orgaos = [{ nome: "Não foi possível carregar as informações requisitadas." }];
+	    console.log(err)
+	});
+    });
+}
+
+//app.controller('OrgaosController', ['$scope', 'Consulta-Siconv', '$ionicPlatform', orgaosController]);
+

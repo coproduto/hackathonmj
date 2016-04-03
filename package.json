@@ -50,5 +50,5 @@
       "full-install": "node install && bower install"
   }
   "private": true,
-  "license": "MIT"
+  "license": "GPL-2.0"
 }
