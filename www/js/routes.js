@@ -1,24 +1,14 @@
-.config(function ($stateProvider, $urlRouterProvider) {
+var app = angular.module('hackathon.routes', ['ionic', '$ionicPlatform'])
 
-    $stateProvider
+app.config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('' / templates / inicio '')
 
-        .state('tab', {
-        url: "/tab",
-        abstract: true,
-        templateUrl: "templates/tabs.html"
-    })
-
-    .state('tab.filtros', {
+    $stateProvider.state('tab.filtro', {
         url: '/filtros',
         views: {
-            'tab-dash': {
-                templateUrl: 'templates/tab-filtros.html',
-                controller: 'FiltrosCtrl'
+            filtros: {
+                templateUrl: 'templates/tab-filtros.html'
             }
         }
     })
-
-    // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/filtros');
-
-});
+})

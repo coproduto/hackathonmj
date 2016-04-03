@@ -19,26 +19,26 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
 
-            var myLatLng = new google.maps.LatLng(lat, lng);
+            var map = new L.map('map').setView([lat, lng], 13);
+            L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+                maxZoom: 15,
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                id: 'mapbox.streets'
+            }).addTo(map);
 
-            var mapOptions = {
-                center: myLatLng,
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-           };
-
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
             $scope.map = map;
             $ionicLoading.hide();
 
-/*	    google.maps.event.addListenerOnce($scope.map, 'idle', function() {	
-		var marker = new google.maps.Marker({ 
-		    map: map,
-		    animation: google.maps.animation.DROP,
-		    position: myLatLng
-		});
-	    });*/
+            /*	    google.maps.event.addListenerOnce($scope.map, 'idle', function() {	
+            		var marker = new google.maps.Marker({ 
+            		    map: map,
+            		    animation: google.maps.animation.DROP,
+            		    position: myLatLng
+            		});
+            	    });*/
 
         }, function (err) {
             $ionicLoading.hide();
@@ -52,14 +52,17 @@ app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading
 //controlador de teste
 function orgaosController($scope, consulta, $ionicPlatform) {
     $ionicPlatform.ready(function () {
-	consulta.orgaos({nome: "turismo"}, function(data) {
-	    $scope.orgaos = data.orgaos;
-	}, function(err) {
-	    $scope.orgaos = [{ nome: "Não foi possível carregar as informações requisitadas." }];
-	    console.log(err)
-	});
+        consulta.orgaos({
+            nome: "turismo"
+        }, function (data) {
+            $scope.orgaos = data.orgaos;
+        }, function (err) {
+            $scope.orgaos = [{
+                nome: "Não foi possível carregar as informações requisitadas."
+            }];
+            console.log(err)
+        });
     });
 }
 
 //app.controller('OrgaosController', ['$scope', 'Consulta-Siconv', '$ionicPlatform', orgaosController]);
-
