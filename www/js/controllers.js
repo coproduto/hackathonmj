@@ -25,12 +25,20 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
                 center: myLatLng,
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+           };
 
             var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
             $scope.map = map;
             $ionicLoading.hide();
+
+/*	    google.maps.event.addListenerOnce($scope.map, 'idle', function() {	
+		var marker = new google.maps.Marker({ 
+		    map: map,
+		    animation: google.maps.animation.DROP,
+		    position: myLatLng
+		});
+	    });*/
 
         }, function (err) {
             $ionicLoading.hide();
@@ -41,6 +49,7 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
 
 app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', mapController]);
 
+//controlador de teste
 function orgaosController($scope, consulta, $ionicPlatform) {
     $ionicPlatform.ready(function () {
 	consulta.orgaos({nome: "turismo"}, function(data) {
