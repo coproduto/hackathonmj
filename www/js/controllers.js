@@ -21,12 +21,9 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
             var lng = position.coords.longitude;
 
             var map = new L.map('map').setView([lat, lng], 15)
+
             L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'mapbox.streets'
+                maxZoom: 18
             }).addTo(map);
 
             map.whenReady(function () {
