@@ -1,8 +1,13 @@
-<ion-tabs class='tabs-icon-top tabs-stable'>
-    <ion-tab title='Inicio' icon='ion-ios-home-outline' href="#/tab/inicio">
-        <ion-nav-view name="tab-inicio"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title='Filtros' icon='ion-ios-list-outline' href="#/tab/filtros">
-        <ion-nav-view name="tab-filtros"></ion-nav-view>
-    </ion-tab>
-</ion-tabs>
+<ion-view title="{{navTitle}}" left-buttons="leftButtons">
+
+    <ion-tabs tabs-type="tabs-icon tabs-stable">
+        <ion-tab title="Mapa" icon='ion-ios-home-outline' href="#/tab/mapa">
+            <ion-nav-view name="tab-mapa"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title='Filtros' icon='ion-ios-list-outline' href="#/tab/filtros">
+            <ion-nav-view name="tab-filtros"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+
+</ion-view>

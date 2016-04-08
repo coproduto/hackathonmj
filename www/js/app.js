@@ -23,6 +23,53 @@ app.run(function ($ionicPlatform) {
     });
 })
 
+app.config(function ($stateProvider, $urlRouterProvider) {
+
+
+    $stateProvider
+
+    // setup an abstract state for the tabs directive
+
+
+        .state('tab', {
+        url: "/tab",
+        abstract: true,
+        templateUrl: "templates/tabs.html"
+    })
+
+    // Each tab has its own nav history stack:
+
+    .state('tab.mapa', {
+        url: '/mapa',
+        views: {
+            'tab-mapa': {
+                templateUrl: 'templates/mapa.html',
+                controller: 'MapController'
+            }
+        }
+    })
+
+    .state('tab.filtros', {
+        url: '/filtros',
+        views: {
+            'tab-filtros': {
+                templateUrl: 'templates/filtros.html',
+            }
+        }
+    })
+
+    .state('menu', {
+        url: '/menu',
+        abstract: true,
+        templateUrl: 'templates/menu.html'
+    })
+
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/tab/mapa');
+
+});
+
+
 function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatform) {
 
     $ionicPlatform.ready(function () {
