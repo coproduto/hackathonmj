@@ -33,26 +33,46 @@
     <!-- leaflet -->
     <script src="lib/leaflet/dist/leaflet.js"></script>
 
+    <!-- include after ionic.css and ionic.bundle.js -->
+    <link href="lib/ionic-filter-bar/dist/ionic.filter.bar.min.css" rel="stylesheet">
+    <script src="lib/ionic-filter-bar/dist/ionic.filter.bar.min.js"></script>
+
 </head>
 
 <body ng-app="hackathon">
-<!--
+    <!--
  The nav bar that will be updated as we navigate between views.
  -->
- <ion-nav-bar class="bar-stable" align-title="center">
-      <ion-nav-back-button class="button icon-left ion-home">
-      </ion-nav-back-button>
-        <ion-nav-buttons side="left" >
-          <button class="button icon-left ion-navicon-round">
-          </button>
-        </ion-nav-buttons>
-    </ion-nav-bar>
-<!--
+
+
+    <ion-side-menus>
+
+        <ion-pane ion-side-menu-content>
+            <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+                <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
+            </ion-nav-bar>
+            <ion-nav-view></ion-nav-view>
+        </ion-pane>
+
+        <ion-side-menu side="left">
+            <ion-header-bar class="bar bar-header bar-dark"></ion-header-bar>
+            <ion-content has-header="true">
+                <ion-list>
+                    <ion-item href="#/faq" menu-close>FAQ</ion-item>
+                    <ion-item href="#/conta" menu-close>Conta</ion-item>
+                    <ion-item href="#/denuncias" menu-close>Historico de Denuncias</ion-item>
+                    <ion-item href="#/sobre" menu-close>Sobre o Aplicativo</ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-side-menu>
+
+    </ion-side-menus>
+
+    <!--
  The views will be rendered in the <ion-nav-view> directive below
  Templates are in the /templates folder (but you could also
  have templates inline in this html file if you'd like).
  -->
-<ion-nav-view></ion-nav-view>
 </body>
 
 </html>

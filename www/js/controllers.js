@@ -38,6 +38,7 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
             console.log(err);
         });
     });
+
 }
 app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', mapController]);
 
@@ -57,5 +58,17 @@ function orgaosController($scope, consulta, $ionicPlatform) {
     });
 }
 
+app.controller('TabController', function ($scope, $ionicSideMenuDelegate) {
+    $scope.openMenu = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+    }
+
+});
+
+app.controller('FaqCtrl', function ($scope, $ionicSideMenuDelegate) {
+    $scope.openMenu = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+    }
+});
 
 //app.controller('OrgaosController', ['$scope', 'Consulta-Siconv', '$ionicPlatform', orgaosController]);

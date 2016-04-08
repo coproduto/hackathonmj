@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('hackathon', ['ionic', 'ngCordova', 'hackathon.services', 'hackathon.controllers'])
+var app = angular.module('hackathon', ['ionic', 'ngCordova', 'hackathon.services', 'hackathon.controllers', 'jett.ionic.filter.bar'])
 
 app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -34,6 +34,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('tab', {
         url: "/tab",
         abstract: true,
+        controller: 'TabController',
         templateUrl: "templates/tabs.html"
     })
 
@@ -58,10 +59,28 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         }
     })
 
-    .state('menu', {
-        url: '/menu',
-        abstract: true,
-        templateUrl: 'templates/menu.html'
+    .state('faq', {
+        url: '/faq',
+        controller: 'TabController',
+        templateUrl: 'templates/faq.html'
+    })
+
+    .state('conta', {
+        url: '/conta',
+        controller: 'TabController',
+        templateUrl: 'templates/conta.html'
+    })
+
+    .state('denuncias', {
+        url: '/denuncias',
+        controller: 'TabController',
+        templateUrl: 'templates/denuncias.html'
+    })
+
+    .state('sobre', {
+        url: '/sobre',
+        controller: 'TabController',
+        templateUrl: 'templates/sobre.html'
     })
 
     // if none of the above states are matched, use this as the fallback
