@@ -168,6 +168,19 @@ function orgaosController($scope, consulta, $ionicPlatform) {
     });
 }
 
+/*app.controller('TabController', function ($scope, $ionicSideMenuDelegate) {
+    $scope.openMenu = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+    }
+
+});p
+
+app.controller('FaqCtrl', function ($scope, $ionicSideMenuDelegate) {
+    $scope.openMenu = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+    }
+});*/
+
 //app.controller('OrgaosController', ['$scope', 'Consulta-Siconv', '$ionicPlatform', orgaosController]);
 
 //funções auxiliares

@@ -1,5 +1,3 @@
-var app = angular.module('hackathon.routes', ['ionic', '$ionicPlatform'])
-
 app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise(' / templates / inicio ')
 

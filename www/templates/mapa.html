@@ -1,0 +1,15 @@
+<ion-view>
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" ng-click="openMenu()"></button>
+    </ion-nav-buttons>
+    <div class="float-button">
+        <span class="height-fix">
+    <a ui-sref="add-trip" class="content">
+      <i class="ion-android-locate"> </i>
+    </a>
+  </span>
+    </div>
+    <ion-content ng-controller="MapController" class="has-header">
+        <div id="map" data-tap-disabled="true"></div>
+    </ion-content>
+</ion-view>
