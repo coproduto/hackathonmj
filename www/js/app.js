@@ -25,5 +25,4 @@ app.run(function ($ionicPlatform) {
 
 app.config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
-    $ionicConfigProvider.navBar.alignTitle('center');
 });

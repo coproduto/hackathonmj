@@ -40,7 +40,7 @@
     <ion-tabs class='tabs-icon-top tabs-stable'>
         <ion-tab title='Inicio' icon='ion-ios-home-outline' href="#">
         </ion-tab>
-        <ion-tab title='Filtros' icon='ion-ios-list-outline' href="#/templates/filtros.html">>
+        <ion-tab title='Filtros' icon='ion-ios-list-outline' href="#/templates/filtros.html">
         </ion-tab>
     </ion-tabs>
     <ion-nav-view>
@@ -48,12 +48,16 @@
 
             <ion-side-menu-content>
                 <ion-nav-bar class="bar-stable">
-                    <ion-nav-buttons side="left">
-                        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-                        <h1 class="title">De Olho</h1>
-                    </ion-nav-buttons>
+		  <ion-nav-title>
+		    <h1 class="title">De Olho</h1>
+		  </ion-nav-title>
+
+                  <ion-nav-buttons side="left">
+                    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+                  </ion-nav-buttons>
+
                 </ion-nav-bar>
-                -
+                
                 <ion-content ng-controller="MapController" class="has-header has-footer">
                     <div id="map" data-tap-disabled="true"></div>
                 </ion-content>
@@ -80,7 +84,6 @@
 
         </ion-side-menus>
     </ion-nav-view>
-    <script src="https://maps-api-ssl.google.com/maps/api/js?key=AIzaSyCRRoG_QPKdSG75oBRoAMF-YP-Jcb65kAo&libraries=places"></script>
 </body>
 
 </html>
