@@ -28,8 +28,6 @@
     <script src="js/app.js"></script>
     <script src="js/services.js"></script>
     <script src="js/controllers.js"></script>
-    <script src="js/routes.js"></script>
-
     <!-- leaflet -->
     <script src="lib/leaflet/dist/leaflet.js"></script>
 
@@ -67,53 +65,12 @@
         </ion-side-menu>
 
     </ion-side-menus>
-    <ion-tabs class='tabs-icon-top tabs-stable'>
-        <ion-tab title='Inicio' icon='ion-ios-home-outline' href="#">
-        </ion-tab>
-        <ion-tab title='Filtros' icon='ion-ios-list-outline' href="#/templates/filtros.html">
-        </ion-tab>
-    </ion-tabs>
-    <ion-nav-view>
-        <ion-side-menus>
 
-            <ion-side-menu-content>
-                <ion-nav-bar class="bar-stable">
-		  <ion-nav-title>
-		    <h1 class="title">De Olho</h1>
-		  </ion-nav-title>
-
-                  <ion-nav-buttons side="left">
-                    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-                  </ion-nav-buttons>
-
-                </ion-nav-bar>
-                
-                <ion-content ng-controller="MapController" class="has-header has-footer">
-                    <div id="map" data-tap-disabled="true"></div>
-                </ion-content>
-            </ion-side-menu-content>
-
-            <ion-side-menu side="left">
-                <ion-content class="has-header">
-                    <ion-list>
-                        <ion-item>
-                            Conta
-                        </ion-item>
-                        <ion-item>
-                            Perguntas Frequentes
-                        </ion-item>
-                        <ion-item>
-                            Denúncias
-                        </ion-item>
-                        <ion-item>
-                            Sobre o app
-                        </ion-item>
-                    </ion-list>
-                </ion-content>
-            </ion-side-menu>
-
-        </ion-side-menus>
-    </ion-nav-view>
+    <!--
+ The views will be rendered in the <ion-nav-view> directive below
+ Templates are in the /templates folder (but you could also
+ have templates inline in this html file if you'd like).
+ -->
 </body>
 
 </html>
