@@ -1,5 +1,7 @@
 var controllers = angular.module('hackathon.controllers', ['hackathon.services']);
 
+
+
 function mapController($scope,
     $cordovaGeolocation,
     geocoding,
@@ -171,9 +173,12 @@ function orgaosController($scope, consulta, $ionicPlatform) {
     });
 }
 
-app.controller('TabController', function ($scope, $ionicSideMenuDelegate) {
+app.controller('TabController', function ($scope, $ionicSideMenuDelegate, $ionicHistory) {
     $scope.openMenu = function () {
         $ionicSideMenuDelegate.toggleLeft();
+    }
+    $scope.myGoBack = function () {
+        $ionicHistory.goBack();
     }
 
 });
@@ -181,6 +186,22 @@ app.controller('TabController', function ($scope, $ionicSideMenuDelegate) {
 app.controller('FaqCtrl', function ($scope, $ionicSideMenuDelegate) {
     $scope.openMenu = function () {
         $ionicSideMenuDelegate.toggleLeft();
+    }
+});
+
+app.controller('DenunciasController', function ($scope, $ionicSideMenuDelegate) {
+    $scope.openMenu = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+    }
+    $scope.posts = [];
+
+    for (var i = 0; i < 7; i++) {
+        // Data Fake
+        var date = (+new Date) - (i * 1000 * 60 * 60);
+        $scope.posts.push({
+            created_at: date,
+            text: 'Convenio ' + ((Math.floor(Math.random() * 2) === 1) ? '1233451' : '')
+        });
     }
 });
 

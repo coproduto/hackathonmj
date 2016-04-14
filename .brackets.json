@@ -1,0 +1,8 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/home/iacapuca/Projetos/MinJustiça/hackathonmj/www/lib/angular-mocks/ngMock.js",
+        "/home/iacapuca/Projetos/MinJustiça/hackathonmj/platforms/android/cordova/lib/prepare.js",
+        "/home/iacapuca/Projetos/MinJustiça/hackathonmj/www/lib/leaflet/dist/leaflet-src.js",
+        "/home/iacapuca/Projetos/MinJustiça/hackathonmj/www/js/app.js"
+    ]
+}

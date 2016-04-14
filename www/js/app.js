@@ -5,6 +5,44 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('hackathon', ['ionic', 'ngCordova', 'hackathon.services', 'hackathon.controllers', 'jett.ionic.filter.bar'])
 
+// A simple relative timestamp filter
+app.filter('relativets', function () {
+    return function (value) {
+        var now = new Date();
+        var diff = now - value;
+
+        // ms units
+        var second = 1000;
+        var minute = second * 60;
+        var hour = minute * 60;
+        var day = hour * 24;
+        var year = day * 365;
+        var month = day * 30;
+
+        var unit = day;
+        var unitStr = 'd';
+        if (diff > year) {
+            unit = year;
+            unitStr = 'y';
+        } else if (diff > day) {
+            unit = day;
+            unitStr = 'd';
+        } else if (diff > hour) {
+            unit = hour;
+            unitStr = 'h';
+        } else if (diff > minute) {
+            unit = minute;
+            unitStr = 'm';
+        } else {
+            unit = second;
+            unitStr = 's';
+        }
+
+        var amt = Math.ceil(diff / unit);
+        return amt + '' + unitStr;
+    }
+})
+
 app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -73,7 +111,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
     .state('denuncias', {
         url: '/denuncias',
-        controller: 'TabController',
+        controller: 'DenunciasController',
         templateUrl: 'templates/denuncias.html'
     })
 
@@ -133,4 +171,5 @@ function mapController($scope, $cordovaGeolocation, $ionicLoading, $ionicPlatfor
 app.controller('MapController', ['$scope', '$cordovaGeolocation', '$ionicLoading', '$ionicPlatform', mapController]);
 app.config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
+    $ionicConfigProvider.navBar.alignTitle('center');
 });

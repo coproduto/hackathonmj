@@ -2,7 +2,27 @@
     <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" ng-click="openMenu()"></button>
     </ion-nav-buttons>
+    <ion-nav-buttons side='right'>
+        <button class="button button-icon button-clear ion-android-arrow-back" ng-click="myGoBack()"></button>
+    </ion-nav-buttons>
     <ion-content padding="true">
-        <h1 style="text-align: center;">Historico de Denuncias</h1>
+        <ion-list>
+        </ion-list>
+        <ion-list>
+            <ion-item class="item-icon-left" ng-repeat="post in posts">
+                {{post.text}}
+                <div class="fs1">
+                    <div>
+                        <div class="post-time">{{post.created_at | relativets }}</div>
+                        <div class="post-options">
+                            <i class="icon-reply"></i>
+                            <i class="icon-shuffle"></i>
+                        </div>
+                        <span class="icon icon-denuncia">
+    <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span></span>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>
