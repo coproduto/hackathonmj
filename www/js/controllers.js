@@ -1,7 +1,5 @@
 var controllers = angular.module('hackathon.controllers', ['hackathon.services']);
 
-
-
 function mapController($scope,
     $cordovaGeolocation,
     geocoding,
@@ -17,15 +15,14 @@ function mapController($scope,
                     '\nTentando novamente...'
             });
 
-            var retry;
-            retry = $interval(function () {
+            $scope.retry = $interval(function () {
                 if ($scope.hasPosition) {
                     $scope.endGeolocationError()
                 }
             }, 3000);
 
-            var getPositionAgain;
-            getPositionAgain = $interval(function () {
+
+            $scope.getPositionAgain = $interval(function () {
                 if ($scope.hasPosition) {
                     $scope.stopGettingPosition()
                 } else {
@@ -35,15 +32,15 @@ function mapController($scope,
         };
 
         $scope.endGeolocationError = function () {
-            if (angular.isDefined(retry)) {
-                $interval.cancel(retry);
+            if (angular.isDefined($scope.retry)) {
+                $interval.cancel($scope.retry);
                 retry = undefined;
             }
         };
 
         $scope.stopGettingPosition = function () {
-            if (angular.isDefined(getPositionAgain)) {
-                $interval.cancel(getPositionAgain);
+            if (angular.isDefined($scope.getPositionAgain)) {
+                $interval.cancel($scope.getPositionAgain);
                 getPositionAgain = undefined;
             }
         };
@@ -54,15 +51,13 @@ function mapController($scope,
                     '\nTentando novamente...'
             });
 
-            var retryRG;
-            retryRG = $interval(function () {
+            $scope.retryRG = $interval(function () {
                 if ($scope.hasAddress) {
                     $scope.endRevGeocodingError()
                 }
             }, 3000);
 
-            var reverseGeocodeAgain;
-            reverseGeocodeAgain = $interval(function () {
+            $scope.reverseGeocodeAgain = $interval(function () {
                 if ($scope.hasAddress) {
                     $scope.stopReverseGeocoding()
                 } else {
@@ -72,15 +67,15 @@ function mapController($scope,
         };
 
         $scope.stopReverseGeocoding = function () {
-            if (angular.isDefined(reverseGeocodeAgain)) {
-                $interval.cancel(reverseGeocodeAgain);
+            if (angular.isDefined($scope.reverseGeocodeAgain)) {
+                $interval.cancel($scope.reverseGeocodeAgain);
                 reverseGeocodeAgain = undefined;
             }
         }
 
         $scope.endRevGeocodingError = function () {
-            if (angular.isDefined(retryRG)) {
-                $interval.cancel(retryRG);
+            if (angular.isDefined($scope.retryRG)) {
+                $interval.cancel($scope.retryRG);
                 retryRG = undefined;
             }
         }
@@ -94,8 +89,8 @@ function mapController($scope,
         $scope.reverseGeocodePosition = function (latlon, errfun) {
             reverseGeocoding.get(latlon, function (data) {
                 $scope.hasAddress = true
-                getConvenios($scope.map, data.address, consultaSiconv, geocoding, $ionicLoading, function (locations) {
-                    addMarkers($scope, locations);
+                getConvenios($scope.map, data.address, consultaSiconv, geocoding, $ionicLoading, function (locations, shouldClear) {
+                    addMarkers($scope, locations, shouldClear); //add markers, clear old markers
                 }, function (err) {
                     errfun()
                 });
@@ -104,7 +99,7 @@ function mapController($scope,
 
         $scope.getPosition = function (errfun) {
             $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-                $scope.hasPosition = true
+                $scope.hasPosition = true;
 
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
@@ -172,22 +167,6 @@ app.controller('MapController', ['$scope',
 				 '$ionicPlatform',
 				 mapController]);
 
-//controlador de teste
-function orgaosController($scope, consulta, $ionicPlatform) {
-    $ionicPlatform.ready(function () {
-        consulta.orgaos({
-            nome: "turismo"
-        }, function (data) {
-            $scope.orgaos = data.orgaos;
-        }, function (err) {
-            $scope.orgaos = [{
-                nome: "Não foi possível carregar as informações requisitadas."
-            }];
-            console.log(err)
-        });
-    });
-}
-
 app.controller('TabController', function ($scope, $ionicSideMenuDelegate, $ionicHistory) {
     $scope.openMenu = function () {
         $ionicSideMenuDelegate.toggleLeft();
@@ -220,17 +199,18 @@ app.controller('DenunciasController', function ($scope, $ionicSideMenuDelegate) 
     }
 });
 
-//app.controller('OrgaosController', ['$scope', 'Consulta-Siconv', '$ionicPlatform', orgaosController]);
-
 //funções auxiliares
 function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading, callback) {
-
-    var dadosConvenio = {};
 
     consultaSiconv.municipios({
         nome: addressData.city
     }, function (cityData) {
         var cityId = cityData.municipios[0].id;
+
+	$ionicLoading.show({
+            template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Buscando proponentes...<br/>(Este processo pode demorar)'
+        });
+
         consultaSiconv.proponentes({
             id_municipio: cityId
         }, function (propData) {
@@ -240,52 +220,75 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
                 return prop.id
             });
 
-            console.log(propIds.slice(0, 10));
-            dadosConvenio.endereco = props[0].endereco
+	    var enderecos = {};
+	    
+	    var someProps = propIds;
+            for(i = 0; i < someProps.length; ++i) {
+		enderecos[propIds[i]] = props[i].endereco
+		//console.log(enderecos[propIds[i]]);
 
-            consultaSiconv.convenios({
-                id_proponente: propIds[0]
-            }, function (convData) {
-                var convs = convData.convenios
+		consultaSiconv.convenios({
+                    id_proponente: propIds[i]
+		}, function (convData) {
+                    var convs = convData.convenios;
+		    var dadosConvenio = {};
 
-                //tratar caso de não ter nenhum convênio
-                dadosConvenio.valor_repasse = convs[0].valor_repasse;
-                dadosConvenio.id_orgao = convs[0].orgao_concedente.Orgao.id;
+                    if(convs.length > 0) { 
+			console.log(convs[0].proponente.Proponente.id);
+			dadosConvenio.valor_repasse = convs[0].valor_repasse;
+			dadosConvenio.id_orgao = convs[0].orgao_concedente.Orgao.id;
 
-                console.log(dadosConvenio);
-
-                geocoding.get({
-                        address: dadosConvenio.endereco + ', ' + addressData.city + ', ' + addressData.state
-                    },
-                    function (geoData) {
-                        dadosConvenio.latlon = geoData.results[0].geometry.location;
-                        console.log(dadosConvenio.latlon);
-                        $ionicLoading.hide();
-                        callback([dadosConvenio])
-                    },
-                    function (err) { //geocodificação falhou
-                    });
-            }, function (err) { //não encontrou convênios
-            });
+			geocoding.get({
+                            address: enderecos[convs[0].proponente.Proponente.id] + ', ' + addressData.city + ', ' + addressData.state
+			},
+				      function (geoData) {
+					  dadosConvenio.latlon = geoData.results[0].geometry.location;
+					  $ionicLoading.hide();
+					  callback([dadosConvenio],true)
+				      },
+				      function (err) { //geocodificação falhou
+				      });
+		    }
+		}, function (err) { //não encontrou convênios
+		});
+	    }
         }, function (err) { //não encontrou proponentes
         });
     }, function (err) { //não encontrou o município
     });
 }
 
-function addMarkers($scope, dataPoints) {
-    if(angular.isDefined($scope.conveniosLayer)) {
-	$scope.conveniosLayer.clearLayers();
-    }
+
+
+function addMarkers($scope, dataPoints, shouldClear) {
     var markers = [];
+
+    if(shouldClear) {
+	clearMarkers($scope)
+    } 
+
+    if(angular.isDefined($scope.markers)) { 
+	markers = $scope.markers;
+    } 
+    
     for( index in dataPoints ) {
 	var marker = L.marker([dataPoints[index].latlon.lat, dataPoints[index].latlon.lng]);
 	markers.push(marker);
 	console.log("Added marker at " + dataPoints[index].latlon.lat + " , " + 
 		    dataPoints[index].latlon.lng + "\n");
     }
+    
+    $scope.markers = markers;
+    
+    for( index in markers ) { 
+	markers[index].addTo($scope.map);
+    }
+}
 
-    conveniosLayer = new L.LayerGroup(markers);
-    conveniosLayer.addTo($scope.map);
-    $scope.conveniosLayer = conveniosLayer;
+function clearMarkers($scope) {
+    if(angular.isDefined($scope.markers)) {
+	for(index in $scope.markers) { 
+	    $scope.map.removeLayer($scope.markers[index]);
+	}
+    }    
 }
