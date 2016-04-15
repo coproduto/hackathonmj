@@ -13,7 +13,7 @@ function mapController($scope,
     $ionicPlatform.ready(function () {
         $scope.showGeolocationError = function () {
             $ionicLoading.show({
-                template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Não foi possível adquirir sua localização.' +
+                template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Não foi possível adquirir sua localização.'+
                     '\nTentando novamente...'
             });
 
@@ -95,7 +95,7 @@ function mapController($scope,
             reverseGeocoding.get(latlon, function (data) {
                 $scope.hasAddress = true
                 getConvenios($scope.map, data.address, consultaSiconv, geocoding, $ionicLoading, function (locations) {
-                    addMarkers($scope.map, locations);
+                    addMarkers($scope, locations);
                 }, function (err) {
                     errfun()
                 });
@@ -109,36 +109,51 @@ function mapController($scope,
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
 
-                var map = new L.map('map').setView([lat, lng], 15)
-                L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
-                    maxZoom: 18,
-                    attribution: 'Map data &cop; ' +
-                        '<a href="http://openstreetmap.org">OpenStreetMap</a> contributors,' +
-                        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                    id: 'mapbox.streets'
-                }).addTo(map);
+		$scope.latlon = {
+                    lat: lat,
+                    lon: lng
+		};
 
-                map.whenReady(function () {
-                    L.marker([lat, lng]).addTo(map);
-                    $scope.map = map;
-                    $scope.latlon = {
-                        lat: lat,
-                        lon: lng
-                    };
 
-                    $ionicLoading.show({
-                        template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Recebendo dados...'
+		if(!angular.isDefined($scope.map)) { 
+                    var map = new L.map('map').setView([lat, lng], 15)
+                    L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &cop; ' +
+                            '<a href="http://openstreetmap.org">OpenStreetMap</a> contributors,' +
+                            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'mapbox.streets'
+                    }).addTo(map);
+
+                    map.whenReady(function () {
+			$scope.userPosition = L.marker([lat, lng]);
+			$scope.userPosition.addTo(map);
+			$scope.map = map;
+		
+			$ionicLoading.show({
+                            template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Recebendo dados...'
+			});
+
+			$scope.reverseGeocodePosition($scope.latlon, $scope.showRevGeocodingError);
                     });
+		} else {
+		    $ionicLoading.show({
+                        template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Recebendo dados...'
+		    });
 
-                    $scope.reverseGeocodePosition($scope.latlon, $scope.showRevGeocodingError);
-                });
+		    $scope.reverseGeocodePosition($scope.latlon, $scope.showRevGeocodingError);
+		}
 
             }, function (err) {
                 console.log(err);
                 errfun()
             });
         };
+
+	$scope.centerAtUser = function() {
+	    console.log("Button click event!");
+	}
 
         $ionicLoading.show({
             template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Adquirindo Localização...'
@@ -219,10 +234,12 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
         consultaSiconv.proponentes({
             id_municipio: cityId
         }, function (propData) {
+
             var props = propData.proponentes;
             var propIds = props.map(function (prop) {
                 return prop.id
             });
+
             console.log(propIds.slice(0, 10));
             dadosConvenio.endereco = props[0].endereco
 
@@ -256,4 +273,19 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
     });
 }
 
-function addMarkers(dataPoints, $scope) {}
+function addMarkers($scope, dataPoints) {
+    if(angular.isDefined($scope.conveniosLayer)) {
+	$scope.conveniosLayer.clearLayers();
+    }
+    var markers = [];
+    for( index in dataPoints ) {
+	var marker = L.marker([dataPoints[index].latlon.lat, dataPoints[index].latlon.lng]);
+	markers.push(marker);
+	console.log("Added marker at " + dataPoints[index].latlon.lat + " , " + 
+		    dataPoints[index].latlon.lng + "\n");
+    }
+
+    conveniosLayer = new L.LayerGroup(markers);
+    conveniosLayer.addTo($scope.map);
+    $scope.conveniosLayer = conveniosLayer;
+}
