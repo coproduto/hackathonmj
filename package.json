@@ -48,7 +48,7 @@
   ],
   "scripts": { 
       "full-install": "node install && bower install"
-  }
+  },
   "private": true,
   "license": "GPL-2.0"
 }
