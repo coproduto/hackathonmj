@@ -33,11 +33,11 @@ npm install
 Esse comando irá preparar todas as bibliotecas que o DeOlho necessita para ser compilado. A seguir, o usuário deve especificar em qual plataforma deseja usar o DeOlho. Isso é feito rodando o seguinte comando na pasta do DeOlho:
 
 ```
-ionic platform <plataforma>
+ionic platform plataforma
 
 ```
 
-Onde "<plataforma>" deve ser substituído por "android" ou "ios". (É importante ressaltar que o DeOlho pode ser compilado para iOS apenas em computadores da marca Apple, pois as ferramentas de desenvolvimento para iOS não estão disponíveis em outras plataformas). Esse comando pode ser rodado várias vezes com plataformas diferentes caso se deseje compilar o DeOlho para diversas plataformas. 
+Onde "plataforma" deve ser substituído por "android" ou "ios". (É importante ressaltar que o DeOlho pode ser compilado para iOS apenas em computadores da marca Apple, pois as ferramentas de desenvolvimento para iOS não estão disponíveis em outras plataformas). Esse comando pode ser rodado várias vezes com plataformas diferentes caso se deseje compilar o DeOlho para diversas plataformas. 
 
 Finalmente, para criar o pacote a ser instalado no smartphone, deve-se rodar o seguinte comando, ainda na pasta do DeOlho:
 
