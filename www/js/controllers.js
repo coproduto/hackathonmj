@@ -201,6 +201,7 @@ app.controller('DenunciasController', function ($scope, $ionicSideMenuDelegate) 
 
 //funções auxiliares
 function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading, callback) {
+    
 
     consultaSiconv.municipios({
         nome: addressData.city
@@ -222,10 +223,13 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
 
 	    var enderecos = {};
 	    
-	    var someProps = propIds;
+	    var someProps = propIds.slice(0,10);
+	    var numProps = 0;
+	    var propsListados = 0;
+//	    $ionicLoading.hide();
             for(i = 0; i < someProps.length; ++i) {
-		enderecos[propIds[i]] = props[i].endereco
-		//console.log(enderecos[propIds[i]]);
+		enderecos[propIds[i]] = props[i].endereco;
+		++numProps;
 
 		consultaSiconv.convenios({
                     id_proponente: propIds[i]
@@ -234,7 +238,7 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
 		    var dadosConvenio = {};
 
                     if(convs.length > 0) { 
-			console.log(convs[0].proponente.Proponente.id);
+//			console.log(convs[0].proponente.Proponente.id);
 			dadosConvenio.valor_repasse = convs[0].valor_repasse;
 			dadosConvenio.id_orgao = convs[0].orgao_concedente.Orgao.id;
 
@@ -243,11 +247,19 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
 			},
 				      function (geoData) {
 					  dadosConvenio.latlon = geoData.results[0].geometry.location;
-					  $ionicLoading.hide();
-					  callback([dadosConvenio],true)
+					  callback([dadosConvenio],false)
+					  ++propsListados;
+					  if(propsListados == numProps) { 
+					      $ionicLoading.hide();
+					  }
 				      },
 				      function (err) { //geocodificação falhou
 				      });
+		    } else { 
+			++propsListados;
+			if(propsListados == numProps) { 
+			    $ionicLoading.hide();
+			}
 		    }
 		}, function (err) { //não encontrou convênios
 		});
@@ -262,6 +274,7 @@ function getConvenios(map, addressData, consultaSiconv, geocoding, $ionicLoading
 
 function addMarkers($scope, dataPoints, shouldClear) {
     var markers = [];
+    var newMarkers = [];
 
     if(shouldClear) {
 	clearMarkers($scope)
@@ -273,16 +286,17 @@ function addMarkers($scope, dataPoints, shouldClear) {
     
     for( index in dataPoints ) {
 	var marker = L.marker([dataPoints[index].latlon.lat, dataPoints[index].latlon.lng]);
-	markers.push(marker);
-	console.log("Added marker at " + dataPoints[index].latlon.lat + " , " + 
-		    dataPoints[index].latlon.lng + "\n");
+	newMarkers.push(marker);
+/*	console.log("Added marker at " + dataPoints[index].latlon.lat + " , " + 
+		    dataPoints[index].latlon.lng + "\n"); */
     }
     
-    $scope.markers = markers;
-    
-    for( index in markers ) { 
-	markers[index].addTo($scope.map);
+    for( index in newMarkers ) { 
+	newMarkers[index].addTo($scope.map);
     }
+
+    $scope.markers = markers.concat(newMarkers);
+
 }
 
 function clearMarkers($scope) {
